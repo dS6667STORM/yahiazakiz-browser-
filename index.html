@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+		<title>yahiazakiz os</title>
+		<script src="https://cdn.jsdelivr.net/npm/@mercuryworkshop/scramjet@latest/dist/scramjet.all.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux@latest/dist/index.js"></script>
+		<style>
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Inter:wght@400;500&display=swap");
+:root{--gold:#e9b96e;--brown:#1c130c;--line:#4a3418}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;flex-direction:column;font-family:"Inter",Arial,sans-serif;color:#eee;overflow-x:hidden;
+background:
+radial-gradient(1.5px 1.5px at 12% 30%,#fff8 50%,transparent),radial-gradient(1.5px 1.5px at 70% 20%,#fff6 50%,transparent),
+radial-gradient(2px 2px at 40% 60%,#fff6 50%,transparent),radial-gradient(1.5px 1.5px at 88% 55%,#fff7 50%,transparent),
+radial-gradient(1.5px 1.5px at 25% 80%,#fff5 50%,transparent),radial-gradient(ellipse at 50% 0%,#241709,#0d0806 70%)}
+.chrome{background:#120c07;border-bottom:1px solid var(--line)}
+.tabbar{display:flex;align-items:center;gap:20px;padding:8px 12px 0}
+.tab{background:#1b130c;border-radius:12px 12px 0 0;padding:10px 16px;display:flex;gap:12px;align-items:center;min-width:200px;font-size:15px}
+.tab .x{margin-left:auto;opacity:.6;font-size:12px}.globe,.plus{opacity:.7}.plus{font-size:20px}
+.toolbar{display:flex;align-items:center;gap:18px;padding:10px 12px 12px}
+.nav{opacity:.45;font-size:18px}
+.urlbar{flex:1;background:#1b130c;border:1px solid var(--line);border-radius:12px;padding:9px 14px;color:#cfc3b2;font-size:15px}
+main{flex:1;display:flex;flex-direction:column;align-items:center;padding:0 20px 140px;position:relative;z-index:2}
+.logo-wrapper{text-align:center;margin-top:9vh}
+.logo{margin:0;font:italic 500 clamp(44px,9vw,84px) "Playfair Display",serif;background:linear-gradient(#ffe2a8,#c98a3d);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px #e9b96e55)}
+.discord{display:inline-block;margin-top:10px;font:italic 22px "Playfair Display",serif;color:#c79a58;text-decoration:none}
+.discord:hover{color:var(--gold);text-decoration:underline}
+#sj-form{width:100%;max-width:540px;margin:36px 0 22px}
+.searchbox{display:flex;align-items:center;gap:12px;padding:0 18px;height:54px;background:#20160d99;border:1px solid var(--line);border-radius:14px;color:#bbb}
+.searchbox:focus-within{border-color:var(--gold)}
+#sj-address{flex:1;background:none;border:0;outline:0;color:#fff;font:inherit;font-size:18px}
+.tiles{display:grid;grid-template-columns:repeat(4,88px);gap:14px 26px;justify-content:center}
+.tile{display:flex;flex-direction:column;align-items:center;gap:8px;color:#eee;text-decoration:none;font-size:13px;text-align:center}
+.icon{width:70px;height:70px;border-radius:16px;border:1px solid var(--line);background-clip:padding-box;display:grid;place-items:center;outline:6px solid #20160d;outline-offset:-6px;transition:.15s}
+.tile:hover .icon{transform:translateY(-3px);border-color:var(--gold)}
+@media(max-width:520px){.tiles{grid-template-columns:repeat(4,70px);gap:12px}.icon{width:60px;height:60px}}
+.leaf{position:fixed;top:-40px;font-size:26px;z-index:1;animation:fall 14s linear infinite;pointer-events:none}
+.l1{left:8%}.l2{left:35%;animation-delay:-5s}.l3{left:62%;animation-delay:-9s}.l4{left:88%;animation-delay:-2s}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.scene{position:fixed;bottom:0;left:0;width:100%;height:130px;z-index:0;pointer-events:none}
+.scene text{font-family:sans-serif}
+#sj-frame{border:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#111;z-index:99}
+#sj-error{color:#f66;white-space:pre-wrap}#sj-error-code{font-size:12px;color:#fff;font-family:"Courier New",monospace;white-space:pre-wrap}
+
+.chrome{position:relative;z-index:100}
+.nav,.plus,.tab .x{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
+.nav{font-size:18px;opacity:.9}.nav:disabled{opacity:.35;cursor:default}
+#tabtitle{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.urlbar{display:flex;align-items:center;gap:8px;min-width:0}
+#urlin{flex:1;min-width:0;background:none;border:0;outline:0;color:#e8dccb;font:inherit}
+#urlin::placeholder{color:#cfc3b2}
+#sj-frame{top:auto;bottom:0;height:auto;width:100%}
+.desc{max-width:540px;text-align:center}
+#sj-error-code a{color:var(--gold)}
+		</style>
+	</head>
+	<body>
+		<div class="chrome">
+			<div class="tabbar">
+				<div class="tab"><span class="globe">◍</span><span id="tabtitle">New Tab</span><button class="x" id="tabx" aria-label="Close tab">✕</button></div>
+				<button class="plus" id="newtab" aria-label="New tab">+</button>
+			</div>
+			<div class="toolbar">
+				<button class="nav" id="back" aria-label="Back" disabled>←</button><button class="nav" id="fwd" aria-label="Forward" disabled>→</button><button class="nav" id="reload" aria-label="Reload" disabled>↻</button>
+				<form class="urlbar" id="urlform" autocomplete="off">🔒︎ <input id="urlin" type="text" inputmode="url" placeholder="Search or enter URL" aria-label="Address" /></form>
+			</div>
+		</div>
+
+		<div class="leaf l1">🍁</div><div class="leaf l2">🍂</div><div class="leaf l3">🍁</div><div class="leaf l4">🍂</div>
+
+		<main>
+			<div class="logo-wrapper">
+				<h1 class="logo">yahiazakiz os</h1>
+				<a class="discord" href="https://discord.gg/MVhpWT77Z7" target="_blank" rel="noopener">discord.gg/MVhpWT77Z7</a>
+			</div>
+
+			<form id="sj-form">
+				<input id="sj-search-engine" value="https://www.google.com/search?q=%s" type="hidden" />
+				<div class="searchbox">
+					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+					<input id="sj-address" type="text" placeholder="Search or enter URL" autocomplete="off" />
+				</div>
+			</form>
+
+			<div class="tiles">
+				<a class="tile" data-url="https://www.youtube.com" href="#"><span class="icon" style="background:#fff"><svg viewBox="0 0 48 34" width="34"><rect width="48" height="34" rx="9" fill="#f00"/><path d="M19 9v16l14-8z" fill="#fff"/></svg></span>YouTube</a>
+				<a class="tile" data-url="https://www.tiktok.com" href="#"><span class="icon" style="background:#000;color:#fff;font-size:30px">♪</span>TikTok</a>
+				<a class="tile" data-url="https://play.geforcenow.com" href="#"><span class="icon" style="background:#76b900;color:#111;font-weight:700;font-size:20px">GFN</span>Geforce Now</a>
+				<a class="tile" data-url="https://www.roblox.com" href="#"><span class="icon" style="background:#3a5cf0"><svg viewBox="0 0 24 24" width="28"><rect x="4" y="4" width="16" height="16" rx="2" fill="#fff" transform="rotate(15 12 12)"/><rect x="10" y="10" width="4" height="4" fill="#3a5cf0" transform="rotate(15 12 12)"/></svg></span>Roblox</a>
+				<a class="tile" data-url="https://geometrydash.io" href="#"><span class="icon" style="background:#f4b01c"><svg viewBox="0 0 24 24" width="30"><rect x="3" y="3" width="18" height="18" rx="2" fill="#3fb7e8" stroke="#111" stroke-width="1.5"/><circle cx="9" cy="10" r="1.6" fill="#111"/><circle cx="15" cy="10" r="1.6" fill="#111"/></svg></span>Geometry Dash</a>
+				<a class="tile" data-url="https://kick.com" href="#"><span class="icon" style="background:#0b0b0b;color:#53fc18;font-weight:900;font-size:34px">K</span>Kick</a>
+				<a class="tile" data-url="https://www.twitch.tv" href="#"><span class="icon" style="background:#9146ff;color:#fff;font-weight:900;font-size:26px">▌▌</span>Twitch</a>
+				<a class="tile" data-url="https://www.snapchat.com" href="#"><span class="icon" style="background:#fff;color:#111;font-size:30px">👻</span>Snapchat</a>
+				<a class="tile" data-url="https://www.instagram.com" href="#"><span class="icon" style="background:linear-gradient(45deg,#fdc468,#e1306c,#833ab4)"><svg viewBox="0 0 24 24" width="30" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg></span>Instagram</a>
+				<a class="tile" data-url="https://discord.com/app" href="#"><span class="icon" style="background:#5865f2;color:#fff;font-size:28px">🎮</span>Discord</a>
+			</div>
+			<div class="desc"><p id="sj-error"></p><pre id="sj-error-code"></pre></div>
+		</main>
+
+		<svg class="scene" viewBox="0 0 1200 140" preserveAspectRatio="xMidYMax slice">
+			<path d="M0 140V95q150-30 320 0t340-5 300 10 240-15v55z" fill="#140c07"/>
+			<g fill="#0c0705"><circle cx="90" cy="60" r="38"/><rect x="85" y="80" width="10" height="60"/>
+			<path d="M1010 140V95l40-30 40 30v45z"/><rect x="1085" y="60" width="18" height="80"/></g>
+			<rect x="1048" y="88" width="10" height="10" fill="#f5c26b"/>
+			<text x="180" y="138" font-size="42">🦃</text><text x="260" y="140" font-size="34">🎃</text>
+		</svg>
+	<script>
+"use strict";
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var address=$("sj-address"),engine=$("sj-search-engine"),errEl=$("sj-error"),errCode=$("sj-error-code");
+  var chrome=document.querySelector(".chrome"),urlin=$("urlin"),tabtitle=$("tabtitle");
+  var scramjet=null,connection=null,ready=null,sj=null,hist=[],idx=-1;
+
+  async function registerSW(){
+    if(!navigator.serviceWorker){
+      if(location.protocol!=="https:"&&["localhost","127.0.0.1"].indexOf(location.hostname)<0)
+        throw new Error("Service workers need https.");
+      throw new Error("This browser doesn't support service workers.");
+    }
+    await navigator.serviceWorker.register("sw.js");
+  }
+  function search(input,template){
+    try{return new URL(input).toString()}catch(e){}
+    try{var u=new URL("http://"+input);if(u.hostname.indexOf(".")>=0)return u.toString()}catch(e){}
+    return template.replace("%s",encodeURIComponent(input));
+  }
+  function host(u){try{return new URL(u).host}catch(e){return u}}
+
+
+  var WISPS=[
+    "wss://anura.pro/",
+    "wss://wisp.rhw.one/",
+    "wss://wisp.mercurywork.shop/",
+    "wss://orbitbrowser.wasmer.app/wisp/"
+  ];
+  function tryWisp(url,ms){
+    return new Promise(function(res){
+      var done=false,ws;
+      function fin(ok){if(done)return;done=true;try{ws.close()}catch(e){}res(ok)}
+      try{ws=new WebSocket(url)}catch(e){return res(false)}
+      ws.onopen=function(){fin(true)};ws.onerror=function(){fin(false)};ws.onclose=function(){fin(false)};
+      setTimeout(function(){fin(false)},ms);
+    });
+  }
+  async function pickWisp(){
+    for(var i=0;i<WISPS.length;i++){if(await tryWisp(WISPS[i],4000))return WISPS[i]}
+    throw new Error("No Wisp server reachable (tried "+WISPS.length+").");
+  }
+
+  function ensureReady(){
+    if(ready)return ready;
+    ready=(async function(){
+      if(typeof $scramjetLoadController==="undefined"||typeof BareMux==="undefined")
+        throw new Error("The proxy server isn't connected to this page.");
+      var C=$scramjetLoadController().ScramjetController;
+      scramjet=new C({prefix:location.pathname.replace(/[^\/]*$/,"")+"scramjet/",files:{wasm:"https://cdn.jsdelivr.net/npm/@mercuryworkshop/scramjet@latest/dist/scramjet.wasm.wasm",all:"https://cdn.jsdelivr.net/npm/@mercuryworkshop/scramjet@latest/dist/scramjet.all.js",sync:"https://cdn.jsdelivr.net/npm/@mercuryworkshop/scramjet@latest/dist/scramjet.sync.js"}});
+      scramjet.init();
+      await registerSW();
+      connection=new BareMux.BareMuxConnection("worker.js");
+      var wisp=await pickWisp();
+      await connection.setTransport("https://cdn.jsdelivr.net/npm/@mercuryworkshop/libcurl-transport@latest/dist/index.mjs",[{websocket:wisp}]);
+    })();
+    ready.catch(function(){ready=null});
+    return ready;
+  }
+
+  function updateUi(){
+    $("back").disabled=idx<=0;
+    $("fwd").disabled=idx>=hist.length-1;
+    $("reload").disabled=idx<0;
+    urlin.value=idx>=0?hist[idx]:"";
+    tabtitle.textContent=idx>=0?host(hist[idx]):"New Tab";
+    document.title=idx>=0?host(hist[idx])+" - yahiazakiz os":"yahiazakiz os";
+  }
+  function placeFrame(){if(sj)sj.frame.style.top=chrome.offsetHeight+"px"}
+  function goHome(){
+    if(sj)sj.frame.style.display="none";
+    hist=[];idx=-1;updateUi();
+  }
+  function showError(msg,url){
+    errEl.textContent=msg;errCode.textContent="";
+    if(url){
+      var a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";
+      a.textContent="Open "+host(url)+" directly in a new tab";errCode.appendChild(a);
+    }
+  }
+  async function load(){
+    var u=hist[idx];errEl.textContent="";errCode.textContent="";updateUi();
+    try{
+      await ensureReady();
+      if(!sj){
+        sj=scramjet.createFrame();sj.frame.id="sj-frame";
+        try{sj.addEventListener("urlchange",function(e){
+          var nu=e&&e.url?String(e.url.href||e.url):"";
+          if(!nu||idx<0)return;
+          hist[idx]=nu;updateUi();
+        })}catch(err){}
+        document.body.appendChild(sj.frame);
+      }
+      sj.frame.style.display="block";placeFrame();
+      sj.go(u);
+    }catch(err){
+      goHome();
+      showError("Could not start the proxy: "+((err&&err.message)||err),u);
+    }
+  }
+  function go(raw){
+    raw=(raw||"").trim();if(!raw)return;
+    var u=search(raw,engine.value);
+    hist=hist.slice(0,idx+1);hist.push(u);idx=hist.length-1;load();
+  }
+
+  $("sj-form").addEventListener("submit",function(e){e.preventDefault();go(address.value);address.value=""});
+  $("urlform").addEventListener("submit",function(e){e.preventDefault();go(urlin.value);urlin.blur()});
+  urlin.addEventListener("focus",function(){this.select()});
+  document.querySelectorAll(".tile").forEach(function(t){
+    t.addEventListener("click",function(e){e.preventDefault();go(t.dataset.url)});
+  });
+  $("back").onclick=function(){if(idx>0){idx--;load()}};
+  $("fwd").onclick=function(){if(idx<hist.length-1){idx++;load()}};
+  $("reload").onclick=function(){if(idx>=0)load()};
+  $("tabx").onclick=goHome;
+  $("newtab").onclick=goHome;
+  window.addEventListener("resize",placeFrame);
+  updateUi();
+})();
+	</script>
+	</body>
+</html>
