@@ -1,0 +1,20 @@
+{
+  "name": "yahiazakiz-os",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@fastify/static": "latest",
+    "fastify": "latest",
+    "@mercuryworkshop/bare-mux": "latest",
+    "@mercuryworkshop/libcurl-transport": "latest",
+    "@mercuryworkshop/scramjet": "latest",
+    "@mercuryworkshop/wisp-server-node": "latest"
+  }
+}
